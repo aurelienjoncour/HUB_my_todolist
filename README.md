@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+# Workshop - My Todolist
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Documentation:
 
-## Available Scripts
+1. React: [link](https://fr.reactjs.org/)
 
-In the project directory, you can run:
+## 1. Lancement du projet
 
-### `npm start`
+```shell
+$> npm install && npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Votre application React est maintenant disponible à cette adresse : http://localhost:3000.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> 💡: Une fois l'application lancée, elle est automatiquement mise à jour à chaque modification du code.
 
-### `npm test`
+## 2. Votre premier composant
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Nous allons créer le premier composant de notre Todolist. Son role est d'afficher la description d'une tache de notre todolist.
 
-### `npm run build`
+> 💡: Pour ce workshop nous allons pas utiliser les classes Javascript pour créer des composants. Vous devez utilisez des ```Functional Components```. [Ici](https://beta.reactjs.org/learn) la doc de React réécris entièrement avec des ```Functional Components```.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Vous devez completer le retour de la fonction.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```JSX
+    function Task({description}) (
+        return (...)
+    )
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Pour afficher votre composant ```Task```, copiez cette ligne dans le composant ```Àpp```:
 
-### `npm run eject`
+```JSX
+    <Task description="Lire la doc de React" />
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 3. Afficher la liste des taches.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Afficher la liste
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Nous allons mettre en place le composant qui affiche la liste de toutes les taches en cours.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```JSX
+    function List(props) {
+        const [taskList, setTaskList] = React.useState(["finish step 2", "finish step 3"]);
+    return (...)
+}
+```
 
-## Learn More
+- `taskList` est une variable constante qui peux être changé uniquement avec la fonction setTaskList
+- `taskList` contient la description de nos taches.
+  
+> 💡: Pour parcourir des tableaux la fonction [map](https://reactjs.org/docs/lists-and-keys.html) est très utile.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Ajouter des fonctionnalités.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Pour que notre composant `List` soit fonctionnel nous devons ajouter:
+ - Afficher un `input` et un `button` pour ajouter un nouvel element dans notre task list.
+  - Pensez à stocker la valeur de l'input dans un nouveau `React.useState()` 
+  - Vous devrez créez une fonction qui met à jour la variable `taskList` quand le boutton est cliqué
+- Afficher un `button` à coté de la tache pour la supprimer
+  - Pensez à créer une fontion qui met à jour la variable `taskList` lorsque que celui-ci est cliqué.
 
-### Code Splitting
+> 💡: Pour comprendre comment gérer les évèments avec React c'est par [ici](https://fr.reactjs.org/docs/handling-events.html)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## 4. Sauvegardez votre TodoList avec une API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Prise en main de l'API
 
-### Making a Progressive Web App
+Nous allons utilisez une API pour stocker nos taches. Toutes les routes sont disponibles [ici](https://documenter.getpostman.com/view/8858534/SW7dX7JG?version=latest#97c7e1ce-0a37-4d6d-89af-aba8f34f1f4c).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Pour créer un compte avec le terminal:
+```Bash
+curl --location --request POST 'https://api-nodejs-todolist.herokuapp.com/user/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"name": "YOUR_FAKE_NAME",
+	"email": "YOUR_FAKE_EMAIL",
+	"password": "YOUR_LONG_PASSWORD",
+	"age": YOUR_FAKE_AGE
+}'
+```
 
-### Advanced Configuration
+Le champ ```token``` contiens la string que vous allez utiliser pour vous identifiez avec l'api.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Si vous voulez ajoutez une nouvelle todo:
 
-### Deployment
+```Bash
+curl --location --request POST 'https://api-nodejs-todolist.herokuapp.com/task' \
+--header 'Authorization: Bearer REPLACE_YOUR_TOKEN_HERE' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"description": "comptez ses xp hub"
+}'
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Enfin pour consultez toute vos todo:
 
-### `npm run build` fails to minify
+```
+curl --location --request GET 'https://api-nodejs-todolist.herokuapp.com/task' \
+--header 'Authorization: Bearer REPLACE_YOUR_TOKEN_HERE' \
+--header 'Content-Type: application/json'
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Utilisez l'API dans react
+
+Dans le ficher ``request.js`` se trouve toute les fonctions pour manipuler votre todolist avec l'API.
+
+Pour les importer ajoutez cette ligne, dans votre fichier ```App.js```:
+
+```JSX
+import { addTask, delTask, getAllTask } from './request';
+```
+
+Faites maintenant en sorte que votre todolist affiche les valeurs récupérer par la fonction ```getAllStask```, pour cela vous allez avoir besoin des react [useEffect](epihttps://reactjs.org/docs/hooks-effect.html)
+
+Ensuite dans appelez les fonctions ```delTask``` et ```addTask``` dans les fonctions qui update la liste.
+
+> 💡: N'oubliez pas que ces fonctions sont async vous devez donc utiliser le mot clée await.
+
+## Pour aller plus loin:
+
+Bravo vous avez terminer le workshop.
+Si vous voulez améliorez votre todolist vous pouvez ajoutez du css, en utilisant bootstrap ou material ui.
