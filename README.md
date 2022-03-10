@@ -23,9 +23,9 @@ Nous allons créer le premier composant de notre Todolist. Son role est d'affich
 Vous devez completer le retour de la fonction.
 
 ```JSX
-    function Task({description}) (
+    function Task({description}) {
         return (...)
-    )
+    }
 ```
 
 Pour afficher votre composant ```Task```, copiez cette ligne dans le composant ```Àpp```:
